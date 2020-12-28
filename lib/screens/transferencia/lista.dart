@@ -2,6 +2,8 @@ import 'package:bytebank/models/transferencia.dart';
 import 'package:bytebank/screens/transferencia/formulario.dart';
 import 'package:flutter/material.dart';
 
+const _tituloAppBar = 'Transferências';
+
 class ListaTransferencias extends StatefulWidget {
   final List<Transferencia> _transferencias = List();
 
@@ -16,7 +18,7 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transferências'),
+        title: Text(_tituloAppBar),
       ),
       body: ListView.builder(
         itemCount: widget._transferencias.length,
@@ -28,22 +30,22 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          final Future<Transferencia> future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormularioTransferencia();
-          }));
-          future.then((transferenciaRecebida) {
-            Future.delayed(Duration(seconds: 5), () {
-              debugPrint('chegou no then do future');
-              debugPrint('$transferenciaRecebida');
-              if (transferenciaRecebida != null) {
-                widget._transferencias.add(transferenciaRecebida);
-              }
-            });
-          });
+          })).then(
+            (transferenciaRecebida) => _atualiza(transferenciaRecebida),
+          );
         },
       ),
     );
+  }
+
+  void _atualiza(Transferencia transferenciaRecebida) {
+    if (transferenciaRecebida != null) {
+      setState(() {
+        widget._transferencias.add(transferenciaRecebida);
+      });
+    }
   }
 }
 

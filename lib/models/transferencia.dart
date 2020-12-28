@@ -1,4 +1,3 @@
-
 class Transferencia {
   final double valor;
   final int numeroConta;
@@ -7,6 +6,6 @@ class Transferencia {
 
   @override
   String toString() {
-    return 'Transferencia{valor: $valor, numeroConta: $numeroConta}';
+    return 'Transferencia{valor: $valor, numeroConta: $numeroConta,}';
   }
 }
